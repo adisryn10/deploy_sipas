@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>Cari Pasien</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <br>
+    <h2 style="text-align: center;"><strong>Sistem Informasi Pasien </strong></h2><br>
+
+    <div class="container-fluid">
+        <form th:action="@{/pasien/cari}">
+            <select th:name="idAsuransi">
+                <option th:value="null" selected disabled hidden>--Pilih Asuransi--</option>
+                <option th:each="asuransi : ${asuransiPasien}"  th:value = "${asuransi.id}" th:text="${asuransi.nama}"></option>
+            </select>
+            <select th:name="idDiagnosis">
+                <option th:value="null" selected disabled hidden>--Pilih Diagnosis--</option>
+                <option th:each="diagnosis : ${diagnosisPenyakitList}" th:value="${diagnosis.id}" th:text="${diagnosis.nama}"></option>
+            </select>
+            <button class="btn btn-primary" type="submit">Cari Pasien</button><br><br>
+        </form>
+        <br>
+
+        <h4 th:text="'Pasien pada Diagnosis '+ ${namaPenyakit} + ' dan Asuransi ' + ${namaAsuransi}" style="text-align: center;">
+            <br>
+        </h4>
+        <div class="card-header bg-dark text-white">Daftar Pasien</div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Nik</th>
+                        <th>Kode</th>
+                        <th>Tempat Lahir</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Telepon Emergency Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pasienDiagnosis, iterationStatus : ${pasienDicari}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${pasienDiagnosis.pasien.getNama()}"></td>
+                        <td th:text="${pasienDiagnosis.pasien.getNik()}"></td>
+                        <td th:text="${pasienDiagnosis.pasien.getKode()}"></td>
+                        <td th:text="${pasienDiagnosis.pasien.getTempatLahir()}"></td>
+                        <td th:text="${pasienDiagnosis.pasien.getTanggalLahir()}"></td>
+                        <td th:text="${pasienDiagnosis.pasien.getEmergencyContact().getNoHp()}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

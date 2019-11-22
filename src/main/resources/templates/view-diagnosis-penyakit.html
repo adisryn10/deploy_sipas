@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>Lihat Diagnosis Penyakit</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <br>
+    <h2 style="text-align: center"><strong>Sistem Informasi Pasien</strong></h2>
+    <br>
+    <div class="container">
+
+        <br>
+        <div class="row">
+            <div class="col-12 card">
+                <div class="card-header bg-dark text-white">Detail Data Diagnosis Penyakit</div>
+                <div class="card-body">
+                    <a th:href="@{/}">Kembali ke beranda</a>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Nama Penyakit</th>
+                                <td th:text="${diagnosisPenyakit.getNama()}"></td>
+                            </tr>
+                            <tr>
+                                <th>Kode penyakit</th>
+                                <td th:text="${diagnosisPenyakit.getKode()}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 card">
+                <div class="card-header bg-dark text-white">Pasien yang terdiagnosis</div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr th:each="diagnosis, iterationStatus : ${diagnosisPasien}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${diagnosis.pasien.nama} + ' - Kode : ' + ${diagnosis.pasien.kode}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>Daftar Diagnosis Penyakit</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <br>
+    <h2 style="text-align: center"><strong>Sistem Informasi Pasien</strong></h2>
+    <br>
+    <div class="container">
+        <br>
+        <a class="btn btn-info" th:href="@{/diagnosis-penyakit/tambah}">Tambah Diagnosis Penyakit Baru</a>
+        <br> <br>
+        <div class="row">
+            <div class="col-12 card">
+                <div class="card-header bg-dark text-white">Daftar Diagnosis Penyakit</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Kode</th>
+                                <th>Jumlah Pasien Terdiagnosis</th>
+                                <th colspan="3">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="diagnosa, iterationStatus : ${listDiagnosis}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${diagnosa.getNama()}"></td>
+                                <td th:text="${diagnosa.getKode()}"></td>
+                                <td th:text="${diagnosa.getListPasienDiagnosis().size()}"></td>
+                                <td class="btn-group">
+                                    <a class="btn btn-info" th:href="@{/diagnosis-penyakit/view}+'?idDiagnosisPenyakit='+${diagnosa.id}">Lihat</a>
+
+                                    <a class="btn btn-dark" style="margin-left: 1em;" th:href="@{/diagnosis-penyakit/change/}+${diagnosa.id}">Ubah</a>
+
+                                    <form th:action="@{/diagnosis-penyakit/hapus}" method="POST">
+                                        <button class="btn btn-danger" th:name="idDiagnosis" type="submit" th:value=${diagnosa.id} style="margin-left: 1em;">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

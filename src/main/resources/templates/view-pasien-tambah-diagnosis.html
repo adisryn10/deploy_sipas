@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>Lihat Pasien</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <br>
+    <h2 style="text-align: center"><strong>Sistem Informasi Pasien</strong></h2>
+    <br>
+    <div class="container">
+
+        <br>
+        <div class="row">
+            <div class="col-12 card">
+                <div class="card-header bg-dark text-white">Detail Data Pasien</div>
+                <div class="card-body">
+                    <a th:href="@{/}">Kembali ke beranda</a>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Nama</th>
+                                <td th:text="${pasien.getNama()}"></td>
+                            </tr>
+                            <tr>
+                                <th>Nik</th>
+                                <td th:text="${pasien.getNik()}"></td>
+                            </tr>
+                            <tr>
+                                <th>Kode</th>
+                                <td th:text="${pasien.getKode()}"></td>
+                            </tr>
+                            <tr>
+                                <th>Jenis Kelamin</th>
+                                <td th:text="${pasien.getJenisKelamin().equals(0) ? 'Perempuan' : 'Laki-laki'}"></td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal Lahir </th>
+                                <td th:text="${pasien.getTanggalLahir()}"></td>
+                            </tr>
+                            <tr>
+                                <th>Tempat Lahir</th>
+                                <td th:text="${pasien.getTempatLahir()}"></td>
+                            </tr>
+                            <tr>
+                                <th>Emergency Contact</th>
+                                <td th:text="${pasien.getEmergencyContact().getNama()} + ' - ' +  ${pasien.getEmergencyContact().getNik()} + '- ' + ${pasien.getEmergencyContact().getNoHp()}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <form th:action="@{/pasien/{nikPasien}(nikPasien=${pasien.nik})} + '/tambah-diagnosis'" th:object="${pasien}" method="POST">
+                        <select th:field="${pasienDiagnosis.diagnosisPenyakit.id}">
+                            <option th:each="diagnosis : ${diagnosisPenyakitList}" th:value="${diagnosis.id}" th:text="${diagnosis.nama}"></option>
+                        </select>
+                        <input type="submit" class="btn btn-primary" value="Tambah Diagnosis Penyakit Pasien" />
+                    </form>
+                </div>
+                <div class="card-header bg-dark text-white">Diagnosis Penyakit Milik Pasien</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Tanggal Diagnosis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="diagnosis, iterationStatus : ${diagnosisPasien}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${diagnosis.diagnosisPenyakit.nama}"></td>
+                                <td th:text="${diagnosis.tanggalDiagnosis}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
